@@ -50,7 +50,7 @@ By integrating these features, developers can easily build Tron-based decentrali
 
 Install the library using npm:
 
-```
+```bash
 npm install tron-reactjs
 ```
 
