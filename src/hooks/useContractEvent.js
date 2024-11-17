@@ -1,52 +1,44 @@
-import { useState, useEffect } from 'react';
-import TronWeb from 'tronweb';
+import { useEffect } from 'react';
+import { useEventContext } from '../EventContext';  // Import context
 
-/**
- * Custom hook to subscribe to any smart contract event.
- * @param {string} contractAddress - The address of the smart contract to listen to.
- * @param {string} eventName - The name of the event (e.g., 'Transfer'). Use '*' for all events.
- * @param {function} callback - The callback function that handles the event data.
- */
-export function useContractEvent(contractAddress, eventName = '*', callback) {
-  const [isSubscribed, setIsSubscribed] = useState(false);
+export const useContractEvent = (contractAddress, eventName, callback) => {
+  const { state, dispatch } = useEventContext();
 
   useEffect(() => {
-    // Initialize TronWeb instance
-    const tronWeb = window.tronWeb;
-
-    if (!tronWeb) {
-      console.error('TronWeb is not initialized');
-      return;
-    }
-
-    // Fetch contract instance
-    const contract = tronWeb.contract().at(contractAddress);
-
-    const handleEvent = (err, result) => {
-      if (err) {
-        console.error('Error watching event:', err);
-        return;
+    // Function to subscribe to the event
+    const subscribeEvent = async () => {
+      // Check if the event is already subscribed globally
+      if (state.events[contractAddress] && state.events[contractAddress][eventName]) {
+        return;  // Event already subscribed
       }
-      console.log(`Event ${eventName} received:`, result);
-      callback(result); // Trigger the callback with event data
+
+      try {
+        const tronWeb = window.tronLink || window.tronWeb;
+        const contract = await tronWeb.contract().at(contractAddress);
+
+        // Subscribe to the event
+        contract[eventName]().watch(callback);
+
+        // Store the event subscription in global state
+        dispatch({
+          type: 'ADD_EVENT',
+          payload: { contractAddress, eventName, callback },
+        });
+      } catch (error) {
+        console.error('Error subscribing to contract event:', error);
+      }
     };
 
-    // Subscribe to all events if '*' is provided
-    if (eventName === '*') {
-      contract.allEvents().watch(handleEvent);
-    } else {
-      // Subscribe to a specific event
-      contract[eventName]().watch(handleEvent);
-    }
+    subscribeEvent();
 
-    setIsSubscribed(true);
-
-    // Cleanup on unmount to avoid memory leaks
+    // Cleanup: Unsubscribe from the event when the component unmounts
     return () => {
-      contract[eventName]().stop(); // Stop listening to the event
-      setIsSubscribed(false);
+      if (state.events[contractAddress] && state.events[contractAddress][eventName]) {
+        dispatch({
+          type: 'REMOVE_EVENT',
+          payload: { contractAddress, eventName },
+        });
+      }
     };
-  }, [contractAddress, eventName, callback]);
-
-  return isSubscribed;
-}
+  }, [contractAddress, eventName, callback, dispatch, state]);
+};
