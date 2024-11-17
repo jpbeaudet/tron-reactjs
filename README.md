@@ -6,11 +6,43 @@ A React library for interacting with the Tron blockchain, designed to provide a 
 
 ## Features
 
-- **Wallet Integration**: Easily connect and interact with TronLink wallet.
-- **Smart Contract Support**: Initialize and interact with Tron smart contracts.
-- **Event Listening**: Listen to smart contract events in real-time.
-- **Utility Functions**: Helpful tools for Tron token and address management.
-- **Inspired by MetaMask UX**: Provides a user-friendly experience for Tron-based applications.
+The `tron-reactjs` library provides a set of utilities and hooks to interact with the Tron network in React-based DApps. It simplifies wallet integration, transaction handling, smart contract interaction, and event monitoring. The key features include:
+
+### 1. Wallet and Network Support
+- **TronLink Wallet Integration**: Seamless integration with the TronLink wallet for managing Tron accounts and sending transactions.
+- **Multiple Wallet Support**: Enhanced support for multiple wallets like TronMask, Math Wallet, and Trust Wallet. Developers can integrate and switch between these wallets within the app for broader user accessibility.
+- **Network Switching**: Automatically handles network switching between Mainnet and Testnet. Users can seamlessly switch between environments for development and production use.
+
+### 2. Transaction Handling
+- **Transaction Signing and Sending**: Support for signing and sending transactions with TronLink and other supported wallets.
+- **Transaction Monitoring**: Built-in support for monitoring transaction status, including real-time updates, confirmations, and rejections.
+- **Error Handling for Transactions**: Catch and handle transaction errors, including transaction reverts. Error messages are provided, including reasons for transaction failures (e.g., insufficient funds or failed contract conditions).
+
+### 3. Smart Contract Event Subscription
+- **Event Subscription**: Easily subscribe to smart contract events such as transfers or function calls. Developers can listen for specific events emitted by the contract, such as TRC-20 token transfers.
+- **Event Error Handling**: Handles errors that occur during contract event subscriptions. If event listening fails (e.g., incorrect event name or network issues), the hook will return an error that can be displayed to the user.
+- **Generic Event Handling**: Use a utility hook (`useSmartContractEvents`) to listen to any events from any smart contract, with dynamic contract addresses and event names.
+
+### 4. Global Error Handling (Error Context)
+- **Centralized Error Management**: Use the `ErrorContext` to globally manage and handle errors related to transactions, contract interactions, and event subscriptions.
+- **Consistent Error Display**: Display error messages in a user-friendly manner across the application. Errors are captured from both transactions and contract events, and they can be centrally accessed from any component.
+- **Custom Error Messages**: Developers can customize error messages based on revert reasons or specific contract errors, providing more informative and actionable feedback to users.
+
+### 5. Customizable Smart Contract Interaction
+- **Custom Contract Methods**: Easily interact with any smart contract by specifying the method name and arguments. The library abstracts the complexity of calling smart contract methods.
+- **Gas Fees and Customization**: Offers the ability to customize transaction parameters, such as gas fees, delays, and transaction timeouts. This provides more control over the contract interaction.
+
+### 6. Global State Management (Optional)
+- **React Context for Event Subscriptions**: Manage multiple event subscriptions globally within your app using React Context. This allows developers to subscribe to events from various contracts in one central place and access them throughout the application.
+- **Efficient Subscription Handling**: Automatically manage event listeners, including subscription and unsubscription, based on component lifecycle. This prevents memory leaks and unnecessary network traffic.
+
+### 7. Error Handling in Contract Events and Transactions
+- **Transaction Reverts**: The library catches errors from reverted transactions, providing detailed error messages and reasons for failure (e.g., revert reasons from the smart contract).
+- **Event Subscription Failures**: Handles subscription errors, including network or event name issues. Errors are tracked and can be displayed or logged for debugging.
+
+---
+
+By integrating these features, developers can easily build Tron-based decentralized applications (dApps) that handle transactions, events, errors, and wallet integration in a streamlined manner. Whether you're building on Testnet or Mainnet, this toolkit simplifies the complex tasks of interacting with smart contracts and managing blockchain-related activities.
 
 ---
 
