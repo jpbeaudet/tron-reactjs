@@ -1,31 +1,49 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { TronContext } from '../TronReactProvider';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import TronWeb from 'tronweb';
 
-const WalletProvider = ({ children }) => {
-  const { tronWeb, setWallet } = useContext(TronContext);
-  const [loading, setLoading] = useState(true);
+// Default settings for TronWeb in case TronLink is not available
+const defaultTronWeb = new TronWeb({
+  fullHost: 'https://nile.trongrid.io',
+  privateKey: 'YOUR_PRIVATE_KEY'  // Remove this for production environments
+});
+
+// Create a context for TronWeb
+const TronWebContext = createContext(defaultTronWeb);
+
+export const WalletProvider = ({ children }) => {
+  const [tronWeb, setTronWeb] = useState(defaultTronWeb);
 
   useEffect(() => {
-    const checkWallet = async () => {
-      try {
-        if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
-          setWallet(window.tronWeb.defaultAddress.base58);
+    const checkTronLink = async () => {
+      // Check if TronLink is available
+      if (window.tronLink && window.tronLink.ready) {
+        console.log('TronLink detected');
+        
+        const tronLinkWeb = window.tronLink.tronWeb;
+        
+        // Check if TronLink is initialized
+        if (tronLinkWeb && tronLinkWeb.defaultAddress.base58) {
+          setTronWeb(tronLinkWeb);
+        } else {
+          console.error('TronLink is not initialized');
         }
-      } catch (error) {
-        console.error('Error checking wallet:', error);
-      } finally {
-        setLoading(false);
+      } else {
+        console.log('TronLink is not detected, using fallback TronWeb instance');
+        setTronWeb(defaultTronWeb);
       }
     };
 
-    checkWallet();
-  }, [tronWeb, setWallet]);
+    checkTronLink();
+  }, []);
 
-  if (loading) {
-    return <p>Loading TronLink Wallet...</p>;
-  }
-
-  return children;
+  return (
+    <TronWebContext.Provider value={tronWeb}>
+      {children}
+    </TronWebContext.Provider>
+  );
 };
 
-export default WalletProvider;
+// Custom hook to access TronWeb
+export const useTronWeb = () => {
+  return useContext(TronWebContext);
+};
