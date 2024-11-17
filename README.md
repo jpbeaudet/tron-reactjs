@@ -403,6 +403,86 @@ Deploy sample contracts to Nile using tools like TronBox or TronIDE and provide 
 
 [sample Tron smart contracts] (https://github.com/michaldrozd/tron-smart-contracts)
 
+# Event Subscription and Global State Management
+## Event Subscription
+This library allows you to easily subscribe to blockchain events from your smart contract using the useContractEvent hook. You can listen to any events emitted by your smart contract, such as token transfers, contract interactions, and more. The hook allows you to subscribe to events dynamically, update your state, and trigger re-renders when necessary.
+
+Example:
+
+```
+import { useContractEvent } from 'tron-reactjs';
+
+const YourComponent = () => {
+  const contract = // instantiate your contract here;
+  
+  useContractEvent(contract, 'Transfer', (event) => {
+    console.log('Transfer event triggered:', event);
+  });
+
+  return <div>Listening for Transfer events</div>;
+};
+```
+## Event Unsubscription
+To ensure that your application does not run into performance issues or memory leaks, it is crucial to unsubscribe from events when they are no longer needed. In this library, unsubscription is handled automatically when the component is unmounted, but you can also manually unsubscribe using the provided cleanup functionality.
+
+Automatic Cleanup Example:
+```
+useEffect(() => {
+  const unsubscribe = contract.events.Transfer().on('data', handleEvent);
+
+  return () => {
+    unsubscribe();
+  };
+}, [contract]);
+```
+In the above example, unsubscribe() will be called when the component is unmounted, preventing unnecessary event listeners from being kept alive.
+
+## Global State Management with React Context
+For applications that need to manage the state of multiple event subscriptions across different components, this library integrates with React’s Context API to provide a global state. This ensures that event data can be shared across components without needing to pass props down manually.
+
+### Setting up the Event Context:
+Create the context:
+```
+import React, { createContext, useContext, useState } from 'react';
+
+const EventContext = createContext();
+
+export const useEventContext = () => {
+  return useContext(EventContext);
+};
+```
+### Create the provider:
+```
+export const EventProvider = ({ children }) => {
+  const [events, setEvents] = useState({}); // Stores event data globally
+
+  return (
+    <EventContext.Provider value={{ events, setEvents }}>
+      {children}
+    </EventContext.Provider>
+  );
+};
+```
+### Using the context in your components:
+```
+import { useEventContext } from 'tron-reactjs';
+
+const YourComponent = () => {
+  const { events, setEvents } = useEventContext();
+
+  // Subscribe to events and update global state
+  useContractEvent(contract, 'Transfer', (event) => {
+    setEvents(prev => ({ ...prev, transferEvent: event }));
+  });
+
+  return <div>Transfer Event Data: {JSON.stringify(events.transferEvent)}</div>;
+};
+```
+### Benefits of Global State Management:
+Single Source of Truth: All event data is centralized in the EventContext, ensuring consistency across your application.
+Scalability: As your app grows, you can manage multiple event subscriptions in one place, improving maintainability.
+Performance: Avoid unnecessary prop drilling by using global state, and subscribe to events at a higher level in the component tree.
+
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request.
 
