@@ -1,22 +1,38 @@
-import { useContext } from 'react';
-import { TronContext } from '../TronReactProvider';
+import { useEffect, useState } from 'react';
+import { useTronWeb } from '../components/WalletProvider';
 
-const useWallet = () => {
-  const { tronWeb, wallet, isConnected } = useContext(TronContext);
+export const useWallet = () => {
+  const tronWeb = useTronWeb();
+  const [account, setAccount] = useState(null);
 
-  const sendTRX = async (to, amount) => {
-    if (!tronWeb || !wallet) throw new Error('Wallet not connected.');
+  useEffect(() => {
+    const checkAccount = async () => {
+      if (tronWeb && tronWeb.defaultAddress.base58) {
+        setAccount(tronWeb.defaultAddress.base58);
+      }
+    };
+
+    checkAccount();
+  }, [tronWeb]);
+
+  // Function to request the user to sign a transaction
+  const sendTransaction = async (transaction) => {
+    if (!tronWeb) {
+      console.error('TronWeb is not initialized');
+      return;
+    }
 
     try {
-      const transaction = await tronWeb.trx.sendTransaction(to, tronWeb.toSun(amount));
-      return transaction;
+      const signedTransaction = await tronWeb.transactionBuilder.sign(transaction);
+      const broadcastResult = await tronWeb.trx.sendRawTransaction(signedTransaction);
+      return broadcastResult;
     } catch (error) {
-      console.error('Error sending TRX:', error);
-      throw error;
+      console.error('Transaction signing failed:', error);
     }
   };
 
-  return { tronWeb, wallet, isConnected, sendTRX };
+  return {
+    account,
+    sendTransaction,
+  };
 };
-
-export default useWallet;
