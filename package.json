@@ -6,9 +6,9 @@
   "keywords": ["tron", "react", "blockchain", "web3"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/tron-reactjs.git"
+    "url": "https://github.com/jpbeaudet/tron-reactjs.git"
   },
-  "author": "Your Name",
+  "author": "Jean-Philippe Beaudet",
   "license": "MIT",
   "dependencies": {
     "tronweb": "^3.0.0"
