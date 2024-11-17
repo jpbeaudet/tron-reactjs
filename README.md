@@ -73,7 +73,7 @@ export default App;
 ## Connect and Use Wallet
 Use the useWallet hook to access the connected wallet and TronWeb instance.
 
-```
+```javascript
 import React from 'react';
 import { useWallet } from 'tron-reactjs';
 
@@ -96,7 +96,7 @@ export default WalletInfo;
 ## Interact with Smart Contracts
 Use the useContract hook to interact with Tron smart contracts.
 
-```
+```javascript
 import React from 'react';
 import { useContract } from 'tron-reactjs';
 
@@ -129,7 +129,7 @@ export default ContractInfo;
 ## Listen to Contract Events
 Use the useEvents hook to listen to smart contract events.
 
-```
+```javascript
 import React from 'react';
 import { useEvents } from 'tron-reactjs';
 
@@ -167,7 +167,7 @@ export default EventListener;
 ## Utility Functions
 The tronUtils module provides common utilities for Tron development.
 
-```
+```javascript
 import { tronUtils } from 'tron-reactjs';
 
 const trxToSun = tronUtils.toSun(10); // Convert 10 TRX to Sun
@@ -186,7 +186,7 @@ In these cases, the `useSmartContract` hook catches these errors and provides a 
 
 **Example**:
 
-```
+```javascript
 const { sendTransaction, error } = useSmartContract(contractAddress, contractABI);
 
 const handleTransaction = async () => {
@@ -204,7 +204,7 @@ The useSmartContract hook also helps you subscribe to contract events. If an eve
 
 Example:
 
-```
+```javascript
 const { subscribeToEvent, error } = useSmartContract(contractAddress, contractABI);
 
 useEffect(() => {
@@ -220,7 +220,7 @@ Errors are managed globally using the ErrorContext and ErrorProvider. This allow
 
 Example of using ErrorContext:
 
-```
+```javascript
 import { useErrorContext } from './useErrorContext';
 
 const MyComponent = () => {
@@ -240,7 +240,7 @@ The error handling system can be further customized to include specific error me
 
 ## Full Example
 
-```
+```javascript
 import React from 'react';
 import { TronReactProvider, useWallet, useContract, useEvents } from 'tron-reactjs';
 
@@ -286,21 +286,21 @@ export default () => (
 ### 1. Create React App
 Start by creating a new React app if you haven't already:
 
-```
+```bash
 npx create-react-app tron-dapp
 cd tron-dapp
 ```
 ### 2. Install Dependencies
 You'll need the TronWeb library to interact with the TRON network. Install it using npm:
 
-```
+```bash
 npm install tronweb
 ```
 
 ### 3. App File Structure
 The file structure of the app will be:
 
-```
+```bash
 tron-dapp/
 ├── src/
 │   ├── components/
@@ -312,7 +312,7 @@ tron-dapp/
 ### 1. Create WalletConnect.js Component
 This component will manage wallet connection (TronLink detection) and transaction signing.
 
-```
+```javascript
 // src/components/WalletConnect.js
 import React, { useEffect, useState } from 'react';
 import TronWeb from 'tronweb';
@@ -388,7 +388,7 @@ export default WalletConnect;
 ### 2. Modify App.js to Include WalletConnect
 In your App.js file, you can render the WalletConnect component.
 
-```
+```javascript
 // src/App.js
 import React from 'react';
 import WalletConnect from './components/WalletConnect';
@@ -407,7 +407,7 @@ export default App;
 ### 3. Update index.js to Render the Application
 Ensure the app is rendered in index.js:
 
-```
+```javascript
 // src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -428,7 +428,7 @@ reportWebVitals();
 ### 4. Run the Application
 Once the code is ready, you can run the application locally with:
 
-```
+```bash
 npm start
 ```
 
@@ -481,7 +481,7 @@ Test compatibility with wallets like TronLink configured for the Nile Testnet. E
 ### 3. Use TRONGrid for API Access
 Utilize TRONGrid endpoints specifically for Nile:
 
-```
+```javascript
 FullNode HTTP API: https://nile.trongrid.io
 SolidityNode HTTP API: https://nile.trongrid.io
 Event Server: https://nile.trongrid.io
@@ -490,7 +490,8 @@ These endpoints mirror mainnet functionality and provide reliable access for tes
 
 ### 4. Add Support for Test Tokens
 Enable developers to request TRX and other test tokens using the Nile Testnet faucet:
-```
+
+```bash
 Faucet URL: TRON Nile Testnet Faucet
 ```
 
@@ -505,7 +506,7 @@ This library allows you to easily subscribe to blockchain events from your smart
 
 Example:
 
-```
+```javascript
 import { useContractEvent } from 'tron-reactjs';
 
 const YourComponent = () => {
@@ -518,11 +519,13 @@ const YourComponent = () => {
   return <div>Listening for Transfer events</div>;
 };
 ```
+
 ## Event Unsubscription
 To ensure that your application does not run into performance issues or memory leaks, it is crucial to unsubscribe from events when they are no longer needed. In this library, unsubscription is handled automatically when the component is unmounted, but you can also manually unsubscribe using the provided cleanup functionality.
 
 Automatic Cleanup Example:
-```
+
+```javascript
 useEffect(() => {
   const unsubscribe = contract.events.Transfer().on('data', handleEvent);
 
@@ -531,6 +534,7 @@ useEffect(() => {
   };
 }, [contract]);
 ```
+
 In the above example, unsubscribe() will be called when the component is unmounted, preventing unnecessary event listeners from being kept alive.
 
 ## Global State Management with React Context
@@ -538,7 +542,8 @@ For applications that need to manage the state of multiple event subscriptions a
 
 ### Setting up the Event Context:
 Create the context:
-```
+
+```javascript
 import React, { createContext, useContext, useState } from 'react';
 
 const EventContext = createContext();
@@ -547,8 +552,10 @@ export const useEventContext = () => {
   return useContext(EventContext);
 };
 ```
+
 ### Create the provider:
-```
+
+```javascript
 export const EventProvider = ({ children }) => {
   const [events, setEvents] = useState({}); // Stores event data globally
 
@@ -559,8 +566,10 @@ export const EventProvider = ({ children }) => {
   );
 };
 ```
+
 ### Using the context in your components:
-```
+
+```javascript
 import { useEventContext } from 'tron-reactjs';
 
 const YourComponent = () => {
@@ -574,6 +583,7 @@ const YourComponent = () => {
   return <div>Transfer Event Data: {JSON.stringify(events.transferEvent)}</div>;
 };
 ```
+
 ### Benefits of Global State Management:
 Single Source of Truth: All event data is centralized in the EventContext, ensuring consistency across your application.
 Scalability: As your app grows, you can manage multiple event subscriptions in one place, improving maintainability.
