@@ -182,6 +182,45 @@ export default () => (
   </TronReactProvider>
 );
 ```
+# Integrating Nile Testnet Support in tron-reactjs
+
+To integrate support for the TRON Nile Testnet into the `tron-reactjs` project, we need to make a few adjustments to your configuration and setup to ensure a smooth developer experience. The Nile Testnet provides a testing environment with similar functionality to the mainnet, allowing developers to build and test decentralized applications (dApps) without incurring real-world costs.
+
+## Step-by-Step Plan
+
+### 1. Update Configuration for Nile Testnet
+Update the `tronweb` initialization settings to use the Nile Testnet endpoints:
+```javascript
+import TronWeb from 'tronweb';
+
+const tronWeb = new TronWeb({
+  fullHost: 'https://nile.trongrid.io',
+  privateKey: 'YOUR_PRIVATE_KEY' // use a private key suitable for testing
+});
+```
+### 2. Ensure Wallet Compatibility
+Test compatibility with wallets like TronLink configured for the Nile Testnet. Ensure developers know how to switch their TronLink to the Nile Testnet within the extension or mobile app.
+
+### 3. Use TRONGrid for API Access
+Utilize TRONGrid endpoints specifically for Nile:
+
+```
+FullNode HTTP API: https://nile.trongrid.io
+SolidityNode HTTP API: https://nile.trongrid.io
+Event Server: https://nile.trongrid.io
+These endpoints mirror mainnet functionality and provide reliable access for testing.
+```
+
+### 4. Add Support for Test Tokens
+Enable developers to request TRX and other test tokens using the Nile Testnet faucet:
+```
+Faucet URL: TRON Nile Testnet Faucet
+```
+
+### 5. Set Up Sample Contracts
+Deploy sample contracts to Nile using tools like TronBox or TronIDE and provide example scripts for contract deployment and interaction. This can include:
+
+[sample Tron smart contracts] (https://github.com/michaldrozd/tron-smart-contracts)
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request.
