@@ -1,0 +1,19 @@
+{
+  "name": "tron-reactjs",
+  "version": "0.1.0",
+  "description": "A React library for Tron blockchain interactions, inspired by MetaMask UX.",
+  "main": "src/index.js",
+  "keywords": ["tron", "react", "blockchain", "web3"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/tron-reactjs.git"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "tronweb": "^3.0.0"
+  },
+  "devDependencies": {
+    "prop-types": "^15.8.1"
+  }
+}
