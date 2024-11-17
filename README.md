@@ -140,9 +140,11 @@ import { tronUtils } from 'tron-reactjs';
 
 const trxToSun = tronUtils.toSun(10); // Convert 10 TRX to Sun
 const isValid = tronUtils.isAddressValid('TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', tronWeb); // Validate address
-Full Example
-javascript
-Copy code
+```
+
+## Full Example
+
+```
 import React from 'react';
 import { TronReactProvider, useWallet, useContract, useEvents } from 'tron-reactjs';
 
