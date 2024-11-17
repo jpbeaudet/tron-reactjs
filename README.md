@@ -58,7 +58,7 @@ npm install tron-reactjs
 1. Wrap Your App with TronReactProvider
 The TronReactProvider initializes TronWeb and provides wallet context to your app.
 
-```
+```javascript
 import React from 'react';
 import { TronReactProvider } from 'tron-reactjs';
 
