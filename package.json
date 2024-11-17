@@ -1,9 +1,17 @@
 {
   "name": "tron-reactjs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A React library for Tron blockchain interactions, inspired by MetaMask UX.",
-  "main": "src/index.js",
-  "keywords": ["tron", "react", "blockchain", "web3"],
+  "keywords": [
+    "tron",
+    "react",
+    "blockchain",
+    "dapp",
+    "tronlink",
+    "smart contracts",
+    "web3",
+    "tronweb"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jpbeaudet/tron-reactjs.git"
@@ -13,7 +21,25 @@
   "dependencies": {
     "tronweb": "^3.0.0"
   },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
   "devDependencies": {
     "prop-types": "^15.8.1"
-  }
+  },
+  "homepage": "https://github.com/jpbeaudet/tron-reactjs#readme",
+  "bugs": {
+    "url": "https://github.com/jpbeaudet/tron-reactjs/issues"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "readme": "./README.md"
 }
