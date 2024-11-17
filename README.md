@@ -142,6 +142,70 @@ const trxToSun = tronUtils.toSun(10); // Convert 10 TRX to Sun
 const isValid = tronUtils.isAddressValid('TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', tronWeb); // Validate address
 ```
 
+## Error Handling
+
+The `useSmartContract` hook provides a simple and effective way to handle errors, including transaction reverts and general errors from interacting with smart contracts.
+
+### Transaction Revert Handling
+
+When interacting with smart contracts (such as sending transactions), there is always the possibility that a transaction may fail and revert. For example, a transaction could revert if the conditions in the contract are not met (like insufficient balance, failed validation, etc.). 
+
+In these cases, the `useSmartContract` hook catches these errors and provides a detailed message, which can be displayed to users. Specifically, we check for error messages that include the word `"revert"` and extract useful information about the failure.
+
+**Example**:
+
+```
+const { sendTransaction, error } = useSmartContract(contractAddress, contractABI);
+
+const handleTransaction = async () => {
+  try {
+    await sendTransaction('transfer', recipient, amount);
+  } catch (error) {
+    console.error('Transaction failed:', error.message);
+  }
+};
+```
+When an error occurs (such as a transaction revert), the error state will contain a description of the failure, which can be shown in your UI.
+
+### Contract Event Errors
+The useSmartContract hook also helps you subscribe to contract events. If an event emits an error, it will be captured and returned by the hook. The error state can be used to display the error message related to event subscription issues.
+
+Example:
+
+```
+const { subscribeToEvent, error } = useSmartContract(contractAddress, contractABI);
+
+useEffect(() => {
+  subscribeToEvent('Transfer');
+}, []);
+
+if (error) {
+  console.error('Event subscription failed:', error.message);
+}
+```
+### Global Error Management
+Errors are managed globally using the ErrorContext and ErrorProvider. This allows you to handle errors in a centralized way and display them across your app.
+
+Example of using ErrorContext:
+
+```
+import { useErrorContext } from './useErrorContext';
+
+const MyComponent = () => {
+  const { error } = useErrorContext();
+  
+  return (
+    <div>
+      {error && <p>Error: {error}</p>}
+    </div>
+  );
+};
+```
+By using this approach, your application will have a consistent error handling system that can display errors related to both transactions and contract events in a user-friendly way.
+
+### Custom Error Messages
+The error handling system can be further customized to include specific error messages based on the contract’s logic or revert reasons. This allows developers to provide more informative and specific error messages to users, improving the overall user experience.
+
 ## Full Example
 
 ```
