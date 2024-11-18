@@ -35,6 +35,9 @@
     "node": ">=14.0.0",
     "npm": ">=6.0.0"
   },
+  "dependencies": {
+    "tronweb": "^3.0.0"
+  },
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
