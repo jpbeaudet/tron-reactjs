@@ -45,6 +45,50 @@ The `tron-reactjs` library provides a set of utilities and hooks to interact wit
 By integrating these features, developers can easily build Tron-based decentralized applications (dApps) that handle transactions, events, errors, and wallet integration in a streamlined manner. Whether you're building on Testnet or Mainnet, this toolkit simplifies the complex tasks of interacting with smart contracts and managing blockchain-related activities.
 
 ---
+## Browser Support
+
+The `tron-reactjs` library now fully supports browser environments, making it easier to use Tron blockchain interactions directly in client-side applications. We have bundled the library using [Rollup.js](https://rollupjs.org/) and configured it to provide multiple output formats, including support for CommonJS, ES Modules, and UMD for browser usage.
+
+### Available Builds
+
+The library offers the following build formats in the `dist/` directory:
+
+- **CommonJS (CJS)**: `tron-reactjs.cjs.js` – For Node.js environments.
+- **ES Modules (ESM)**: `tron-reactjs.esm.js` – For modern JavaScript module-based environments.
+- **UMD (Universal Module Definition)**: `tron-reactjs.umd.js` – For direct inclusion in browser projects.
+
+### Using in a Browser
+
+To use `tron-reactjs` in a browser, include the UMD file in your HTML:
+
+```html
+<script src="path/to/tron-reactjs.umd.js"></script>
+<script>
+  // The library is available as a global variable
+  const tron = new TronReactJS();
+  console.log(tron);
+</script>
+```
+Ensure that you include tronweb.js as a dependency if interacting with the Tron blockchain.
+
+### Rollup Bundling Setup
+The library is bundled using Rollup.js with the following key plugins:
+
+@rollup/plugin-node-resolve: Resolves dependencies, including browser-friendly modules.
+@rollup/plugin-commonjs: Converts CommonJS modules to ES6.
+@rollup/plugin-babel: Transpiles modern JavaScript for compatibility with older environments.
+rollup-plugin-terser: Minifies the bundled files for production use.
+The Rollup configuration ensures that react and react-dom are treated as peer dependencies, reducing bundle size and avoiding duplicate React instances in projects.
+
+### How to Build
+If you clone this repository and want to rebuild the library, simply run:
+
+```bash
+npm run build
+The build artifacts will be available in the dist/ directory.
+```
+
+This section provides clear instructions on browser compatibility and highlights the use of Rollup for bundling. Let me know if you need further refinements!
 
 ## Installation
 
