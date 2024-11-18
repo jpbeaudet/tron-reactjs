@@ -38,6 +38,9 @@
     "@babel/preset-react": "^7.22.0",
     "babel-jest": "^29.0.0"
   },
+  "scripts": {
+    "postinstall": "cp node_modules/tronweb/dist/tronweb.js ./src/lib/"
+  },
   "homepage": "https://github.com/jpbeaudet/tron-reactjs#readme",
   "bugs": {
     "url": "https://github.com/jpbeaudet/tron-reactjs/issues"
