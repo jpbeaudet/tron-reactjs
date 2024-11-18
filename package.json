@@ -21,6 +21,12 @@
   "dependencies": {
     "tronweb": "^3.0.0"
   },
+  "scripts": {
+    "postinstall": "cp node_modules/tronweb/dist/tronweb.js ./src/lib/",
+    "test": "jest --config jest.config.js",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage"
+  },
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=6.0.0"
@@ -38,9 +44,6 @@
     "@babel/preset-react": "^7.22.0",
     "babel-jest": "^29.0.0"
   },
-  "scripts": {
-    "postinstall": "cp node_modules/tronweb/dist/tronweb.js ./src/lib/"
-  },
   "homepage": "https://github.com/jpbeaudet/tron-reactjs#readme",
   "bugs": {
     "url": "https://github.com/jpbeaudet/tron-reactjs/issues"
@@ -50,10 +53,5 @@
     "README.md",
     "LICENSE"
   ],
-  "readme": "./README.md",
-  "scripts": {
-    "test": "jest --config jest.config.js",
-    "test:watch": "jest --watch",
-    "coverage": "jest --coverage"
-  }
+  "readme": "./README.md"
 }
