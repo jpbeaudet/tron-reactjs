@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.com/jpbeaudet/tron-reactjs.git"
   },
+  "main": "dist/tron-reactjs.cjs.js",
+  "module": "dist/tron-reactjs.esm.js",
+  "browser": "dist/tron-reactjs.umd.js",
   "author": "Jean-Philippe Beaudet",
   "license": "MIT",
   "dependencies": {
@@ -25,6 +28,7 @@
     "postinstall": "cp node_modules/tronweb/dist/tronweb.js ./src/lib/",
     "test": "jest --config jest.config.js",
     "test:watch": "jest --watch",
+    "build": "rollup -c",
     "coverage": "jest --coverage"
   },
   "engines": {
