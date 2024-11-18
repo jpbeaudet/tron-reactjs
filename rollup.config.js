@@ -24,7 +24,9 @@ export default {
     },
   ],
   plugins: [
-    resolve(), // Resolve dependencies
+    resolve({
+      browser: true, // Ensures that Rollup resolves modules for browser environments
+    }),
     commonjs(), // Convert CommonJS to ES6
     babel({
       exclude: 'node_modules/**', // Ignore dependencies
